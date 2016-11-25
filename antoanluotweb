@@ -1,0 +1,1 @@
+sshuttle -D --dns -r deploy@deploy.lovestory.space 0/0
