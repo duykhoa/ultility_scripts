@@ -41,28 +41,21 @@ gem cleanup &>/dev/null
 echo 'Purge inactive memory...'
 sudo purge
 
-echo 'Delete all desktop files'
+echo 'Delete all desktop Screenshot'
 rm ~/Desktop/Screen\ Shot*
-rm ~/Desktop/*.gif
-rm ~/Desktop/*.zip
-rm ~/Desktop/*.tar
-rm ~/Desktop/*.gzip
-rm ~/Desktop/*.torrent
 
-echo 'Remove Downloads files'
-rm ~/Downloads/*.torrent
-rm ~/Downloads/*.dmg
-rm ~/Downloads/*.zip
-rm ~/Downloads/*.rar
-rm ~/Downloads/*.html
-rm ~/Downloads/*.gif
-rm ~/Downloads/*.jpg
-rm ~/Downloads/*.png
-rm ~/Downloads/*.srt
-rm ~/Downloads/*.gzip
-rm ~/Downloads/*.torrent
-rm ~/Downloads/*.docx
-rm ~/Downloads/*.tar
-rm ~/Downloads/*.xlsx
+removedFmt=(torrent dmg zip rar html gif jpg jpeg png srt gzip docx tar xlsx txt pages md rb)
+
+declare -a deletedPath=(
+  "Desktop" "Downloads"
+)
+
+for i in "${removedFmt[@]}"
+do
+  for j in "${deletedPath[@]}"
+  do
+    rm ~/$j/*.$i
+  done
+done
 
 clear && echo 'Everything is cleaned up :3'
