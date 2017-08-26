@@ -1,1 +1,1 @@
-sshuttle -D --dns -r deploy@deploy.lovestory.space 0/0
+sshuttle -D --dns -r grex 0/0
