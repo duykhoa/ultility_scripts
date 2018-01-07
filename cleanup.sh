@@ -16,6 +16,9 @@ sudo rm -rfv /Library/Logs/Adobe/* &>/dev/null
 rm -rfv ~/Library/Containers/com.apple.mail/Data/Library/Logs/Mail/* &>/dev/null
 rm -rfv ~/Library/Logs/CoreSimulator/* &>/dev/null
 
+echo 'Clear zcompdump'
+rm ~/.zcompdump*
+
 echo 'Clear Adobe Cache Files...'
 sudo rm -rfv ~/Library/Application\ Support/Adobe/Common/Media\ Cache\ Files/* &>/dev/null
 
@@ -38,13 +41,16 @@ brew tap --repair &>/dev/null
 echo 'Cleanup any old versions of gems'
 gem cleanup &>/dev/null
 
+echo 'Clean up rvm'
+rvm cleanup all
+
 echo 'Purge inactive memory...'
 sudo purge
 
 echo 'Delete all desktop Screenshot'
 rm ~/Desktop/Screen\ Shot*
 
-removedFmt=(torrent dmg zip rar html gif jpg jpeg png srt gzip docx tar xlsx txt pages md rb)
+removedFmt=(torrent dmg zip rar html gif jpg jpeg png srt gzip docx tar xlsx txt pages md rb pdf log exe)
 
 declare -a deletedPath=(
   "Desktop" "Downloads"
