@@ -1,1 +1,0 @@
-sshuttle -D --dns -r grex 0/0
