@@ -1,0 +1,7 @@
+#!/bin/bash
+
+function music_dl {
+  youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 --add-metadata $1
+}
+
+music_dl $1
