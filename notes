@@ -1,0 +1,22 @@
+NOTE_PATH="/Users/sgkhoa.tran/Workspace/Personal/Notes/"
+remote="origin"
+branch="master"
+
+command=$1
+
+if [ -z $command ]
+then
+  cd $NOTE_PATH && $EDITOR $NOTE_PATH
+elif [ $command == "sync" ]
+then
+  SYNC_MSG=$2
+
+  if [ -z $SYNC_MSG ]
+  then
+    datetime=$(date +"%Y-%m-%d %T")
+    SYNC_MSG="Sync notes at $datetime"
+    echo $SYNC_MSG
+
+    bash -l -c "cd $NOTE_PATH && git add . && git commit -m '$SYNC_MSG' && git push -u $remote $branch"
+  fi
+fi

@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+# COLOR VARIABLES DECLARATION
+COLOR_RED='\033[0;31m'
+
+NO_COLOR='\033[0m'
+
+echo -e "${COLOR_RED} Be patient, we are performing some household!${NO_COLOR}"
+
+if [ "$(uname)" != "Darwin" ]; then
+  echo -e "${COLOR_RED} So sorry! This script only supports MacOS currently.${NO_COLOR}"
+  exit
+fi
+
+trap ctrl_c INT
+
+function ctrl_c() {
+  echo "Exit!"
+  exit
+}
+
 # Ask for the administrator password upfront
 if [ "$EUID" -ne 0  ]; then
   sudo -v
@@ -32,6 +51,45 @@ echo 'Cleanup XCode Derived Data and Archives...'
 rm -rfv ~/Library/Developer/Xcode/DerivedData/* &>/dev/null
 rm -rfv ~/Library/Developer/Xcode/Archives/* &>/dev/null
 
+#user cache file
+echo "cleaning user cache file from ~/Library/Caches"
+rm -rf ~/Library/Caches/*
+
+#user logs
+echo "cleaning user log file from ~/Library/logs"
+rm -rf ~/Library/logs/*
+#user preference log
+echo "cleaning user preference logs"
+#rm -rf ~/Library/Preferences/*
+echo "done cleaning from /Library/Preferences"
+#system caches
+echo "cleaning system caches"
+sudo rm -rf /Library/Caches/*
+echo "done cleaning system cache"
+#system logs
+echo "cleaning system logs from /Library/logs"
+sudo rm -rf /Library/logs/*
+echo "done cleaning from /Library/logs"
+echo "cleaning system logs from /var/log"
+sudo rm -rf /var/log/*
+echo "done cleaning from /var/log"
+echo "cleaning from /private/var/folders"
+sudo rm -rf /private/var/folders/*
+echo "done cleaning from /private/var/folders"
+#ios photo caches
+echo "cleaning ios photo caches"
+rm -rf ~/Pictures/iPhoto\ Library/iPod\ Photo\ Cache/*
+echo "done cleaning from ~/Pictures/iPhoto Library/iPod Photo Cache"
+#application caches
+echo "cleaning application caches"
+for x in $(ls ~/Library/Containers/)
+do
+    echo "cleaning ~/Library/Containers/$x/Data/Library/Caches/"
+    rm -rf ~/Library/Containers/$x/Data/Library/Caches/*
+    echo "done cleaning ~/Library/Containers/$x/Data/Library/Caches"
+done
+echo "done cleaning for application caches"
+
 echo 'Cleanup Homebrew Cache...'
 brew cleanup --force -s &>/dev/null
 brew cask cleanup &>/dev/null
@@ -41,8 +99,8 @@ brew tap --repair &>/dev/null
 echo 'Cleanup any old versions of gems'
 gem cleanup &>/dev/null
 
-echo 'Clean up rvm'
-rvm cleanup all
+#echo 'Clean up rvm'
+#rvm cleanup all
 
 echo 'Purge inactive memory...'
 sudo purge
@@ -53,7 +111,7 @@ rm ~/Desktop/Screen\ Shot*
 removedFmt=(torrent dmg zip rar html gif jpg jpeg png srt gzip docx tar xlsx txt pages md rb pdf log exe)
 
 declare -a deletedPath=(
-  "Desktop" "Downloads"
+"Desktop" "Downloads"
 )
 
 for i in "${removedFmt[@]}"
@@ -64,4 +122,4 @@ do
   done
 done
 
-clear && echo 'Everything is cleaned up :3'
+clear && echo ''

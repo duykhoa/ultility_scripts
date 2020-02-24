@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sleepin=$1
+
+sudo -v
+
+if [ -z $sleepin ]
+then
+  sudo shutdown -s now
+else
+  sudo shutdown -s +$sleepin
+fi
